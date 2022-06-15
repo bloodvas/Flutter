@@ -4,7 +4,7 @@ void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
-  static String _title = 'Counter';
+  final String _title = 'Counter';
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -18,7 +18,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: MyApp._title,
+      title: widget._title,
       home: Container(
         decoration: const BoxDecoration(
             image: DecorationImage(
@@ -28,7 +28,7 @@ class _MyAppState extends State<MyApp> {
         child: Scaffold(
           backgroundColor: Color.fromARGB(59, 0, 0, 0),
           appBar: AppBar(
-              title: Text(MyApp._title.toUpperCase()),
+              title: Text(widget._title.toUpperCase()),
               centerTitle: true,
               backgroundColor: Color.fromARGB(255, 32, 166, 255)),
           body: RefreshIndicator(
@@ -39,59 +39,71 @@ class _MyAppState extends State<MyApp> {
                 count = 0;
               });
             },
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+            child: SingleChildScrollView(
+              physics: AlwaysScrollableScrollPhysics(),
+              child: Container(
+                constraints: BoxConstraints(maxHeight: 1000),
+                width: double.infinity,
+                height: double.infinity,
+                alignment: Alignment.topCenter,
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              fixedSize: Size(100, 50)),
-                          onPressed: () => setState(() {
-                                count++;
-                              }),
-                          child: const Text('+',
-                              style: TextStyle(
-                                  fontSize: 30,
-                                  color: Color.fromARGB(255, 255, 255, 255))))
-                    ],
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Counter: $count',
-                        style: const TextStyle(
-                            fontSize: 30,
-                            color: Color.fromARGB(255, 255, 255, 255)),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  fixedSize: Size(100, 50)),
+                              onPressed: () => setState(() {
+                                    count++;
+                                  }),
+                              child: const Text('+',
+                                  style: TextStyle(
+                                      fontSize: 30,
+                                      color:
+                                          Color.fromARGB(255, 255, 255, 255))))
+                        ],
                       ),
-                    ],
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              fixedSize: Size(100, 50)),
-                          onPressed: () => setState(() {
-                                count--;
-                              }),
-                          child: const Text('-',
-                              style: TextStyle(
-                                  fontSize: 30,
-                                  color: Color.fromARGB(255, 255, 255, 255))))
-                    ],
-                  )
-                ]),
-          ),
-          floatingActionButton: FloatingActionButton(
-            child: const Text('Clear'),
-            onPressed: () => {
-              _refreshKey.currentState?.show(),
-            },
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Counter: $count',
+                            style: const TextStyle(
+                                fontSize: 30,
+                                color: Color.fromARGB(255, 255, 255, 255)),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  fixedSize: Size(100, 50)),
+                              onPressed: () => setState(() {
+                                    count--;
+                                  }),
+                              child: const Text('-',
+                                  style: TextStyle(
+                                      fontSize: 30,
+                                      color:
+                                          Color.fromARGB(255, 255, 255, 255))))
+                        ],
+                      )
+                    ]),
+              ),
+            ),
           ),
         ),
+
+        // floatingActionButton: FloatingActionButton(
+        //   child: const Text('Clear'),
+        //   onPressed: () => {
+        //     _refreshKey.currentState?.show(),
+        //   },
+        // ),
       ),
     );
   }
